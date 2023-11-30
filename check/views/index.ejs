@@ -1,0 +1,55 @@
+<!-- views/index.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/style.css">
+    <title>호텔 관리 시스템</title>
+</head>
+<body>
+    <h1>호텔 관리 시스템</h1>
+    <form action="/checkin" method="post">
+        <label for="name">손님 이름:</label>
+        <input type="text" id="name" name="name" required>
+        <label for="room">방 호수:</label>
+        <input type="text" id="room" name="room" required>
+        <button type="submit">체크인</button>
+    </form>
+    <form action="/checkout" method="post">
+        <label for="id">체크아웃할 손님 ID:</label>
+        <input type="number" id="id" name="id" required>
+        <button type="submit">체크아웃</button>
+    </form>
+   <!-- <form action="/" method="get">
+        <label for="searchName">이름으로 검색:</label>
+        <input type="text" id="searchName" name="searchName">
+        <button type="submit">검색</button>
+    </form>
+    -->
+    <a href="/log">로그 보기</a>
+    <h2>손님 목록</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>이름</th>
+                <th>방 호수</th>
+                <th>체크인 날짜</th>
+                <th>체크아웃 날짜</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% guests.forEach(guest => { %>
+                <tr>
+                    <td><%= guest.id %></td>
+                    <td><%= guest.name %></td>
+                    <td><%= guest.room %></td> <!-- Add this line to display room number -->
+                    <td><%= formatDate(guest.checkinDate) %></td>
+                    <td><%= guest.checkoutDate ? formatDate(guest.checkoutDate) : '체크아웃 안됨' %></td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+</body>
+</html>

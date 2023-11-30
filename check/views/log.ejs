@@ -1,0 +1,36 @@
+<!-- views/log.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/style.css">
+    <title>Log - Hotel Management</title>
+</head>
+<body>
+    <h1>Check-in/Check-out Log</h1>
+    <a href="/">Back to Home</a>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>이름</th>
+                <th>방 호수</th>
+                <th>Action</th>
+                <th>체크인/체크아웃 시간</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% logs.forEach(log => { %>
+                <tr>
+                    <td><%= log.id %></td>
+                    <td><%= log.name %></td>
+                    <td><%= log.room %></td> <!-- Use log.room instead of guest.room -->
+                    <td><%= log.action %></td>
+                    <td><%= formatDate(log.timestamp) %></td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+</body>
+</html>
