@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <title>음식 주문 시스템</title>
+    <link rel="stylesheet" href="/order.css" />
+  </head>
+  <body>
+    <div class="kiosk-container">
+      <h1>HOTEL FOOD MENU</h1>
+
+      <div class="menu">
+        <div class="menu-item" id="burger">
+          <h2>햄버거</h2>
+          <p class="price">5000원</p>
+          <button onclick="addToOrder('햄버거')">선택</button>
+        </div>
+
+        <div class="menu-item" id="pizza">
+          <h2>피자</h2>
+          <p class="price">8000원</p>
+          <button onclick="addToOrder('피자')">선택</button>
+        </div>
+
+        <div class="menu-item" id="pasta">
+          <h2>파스타</h2>
+          <p class="price">10000원</p>
+          <button onclick="addToOrder('파스타')">선택</button>
+        </div>
+
+        <div class="menu-item" id="ramen">
+          <h2>라면</h2>
+          <p class="price">4000원</p>
+          <button onclick="addToOrder('라면')">선택</button>
+        </div>
+
+        <div class="menu-item" id="jjajang">
+          <h2>짜장면</h2>
+          <p class="price">2000원</p>
+          <button onclick="addToOrder('짜장면')">선택</button>
+        </div>
+
+        <div class="menu-item" id="tteokbok">
+          <h2>떡볶이</h2>
+          <p class="price">2000원</p>
+          <button onclick="addToOrder('떡볶이')">선택</button>
+        </div>
+
+        <div class="menu-item" id="soddeok">
+          <h2>소떡소떡</h2>
+          <p class="price">3000원</p>
+          <button onclick="addToOrder('소떡소떡')">선택</button>
+        </div>
+
+        <div class="menu-item" id="coke">
+          <h2>콜라</h2>
+          <p class="price">2000원</p>
+          <button onclick="addToOrder('콜라')">선택</button>
+        </div>
+
+        <div class="menu-item" id="soda">
+          <h2>사이다</h2>
+          <p class="price">2000원</p>
+          <button onclick="addToOrder('사이다')">선택</button>
+        </div>
+      </div>
+
+      <div class="order-summary">
+        <h2>주문 내역</h2>
+        <ul id="order-list"></ul>
+        <p id="total">총 가격 : 0</p>
+        <button class="place-order-btn" onclick="placeOrder()">주문하기</button>
+      </div>
+    </div>
+
+    <script src="/order.js"></script>
+  </body>
+</html>
