@@ -1,0 +1,72 @@
+<!--reservation.html-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Reservation Form</title>
+  </head>
+  <body>
+    <h2>Reservation Form</h2>
+    <form action="/submit" method="POST" id="reservationForm">
+      <label for="user_id">User ID:</label>
+      <input type="text" id="user_id" name="user_id" required /><br /><br />
+
+      <label for="room_number">Room Number:</label>
+      <input
+        type="text"
+        id="room_number"
+        name="room_number"
+        required
+      /><br /><br />
+
+      <label for="check_in_date">Check-in Date:</label>
+      <input
+        type="date"
+        id="check_in_date"
+        name="check_in_date"
+        required
+      /><br /><br />
+
+      <label for="check_out_date">Check-out Date:</label>
+      <input
+        type="date"
+        id="check_out_date"
+        name="check_out_date"
+        required
+      /><br /><br />
+
+      <input type="submit" value="Submit" />
+    </form>
+
+    <script>
+      document
+        .getElementById("reservationForm")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+
+          const formData = new FormData(this);
+
+          // FormData를 JSON 형식으로 변환
+          const jsonData = {};
+          formData.forEach((value, key) => {
+            jsonData[key] = value;
+          });
+
+          // JSON 형식으로 서버로 전송
+          fetch("/submit", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(jsonData),
+          })
+            .then((response) => response.text())
+            .then((data) => {
+              console.log(data);
+            })
+            .catch((error) => console.error("에러:", error));
+        });
+    </script>
+  </body>
+</html>
