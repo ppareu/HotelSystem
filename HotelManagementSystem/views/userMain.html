@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>고객</title>
+  </head>
+  <body>
+    <button onclick="redirectToOrder()">주문하기</button>
+    <button onclick="redirectToReservation()">예약하기</button>
+  </body>
+  <script>
+    // 주문하기 버튼 클릭 시 order.html로 이동
+    function redirectToOrder() {
+      window.location.href = "/order.html";
+    }
+
+    // 예약하기 버튼 클릭 시 reservation.html로 이동
+    function redirectToReservation() {
+      window.location.href = "/reservation.html";
+    }
+  </script>
+</html>
