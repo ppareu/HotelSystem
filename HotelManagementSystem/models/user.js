@@ -11,6 +11,7 @@ const db = mysql.createPool({
   queueLimit: 0,
 });
 
+// 로그인 확인 시스템
 async function loginUser(username, password) {
   try {
     const [rows, fields] = await db.query(
