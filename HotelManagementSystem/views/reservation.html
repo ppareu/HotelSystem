@@ -1,0 +1,123 @@
+<!--reservation.html-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Reservation Form</title>
+    <style>
+      body {
+        font-family: "Arial", sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+        text-align: center;
+      }
+
+      h2 {
+        color: #333;
+      }
+
+      form {
+        max-width: 400px;
+        margin: 0 auto;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      label {
+        display: block;
+        margin-bottom: 8px;
+        color: #333;
+      }
+
+      input {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 16px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+      }
+
+      input[type="submit"] {
+        background-color: #007bff;
+        color: #fff;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      input[type="submit"]:hover {
+        background-color: #0056b3;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>예약 시스템</h2>
+    <form action="/submit" method="POST" id="reservationForm">
+      <label for="user_id">아이디</label>
+      <input type="text" id="user_id" name="user_id" required /><br /><br />
+
+      <label for="room_number">방 호수</label>
+      <input
+        type="text"
+        id="room_number"
+        name="room_number"
+        required
+      /><br /><br />
+
+      <label for="check_in_date">체크인 날짜</label>
+      <input
+        type="date"
+        id="check_in_date"
+        name="check_in_date"
+        required
+      /><br /><br />
+
+      <label for="check_out_date">체크아웃 날짜</label>
+      <input
+        type="date"
+        id="check_out_date"
+        name="check_out_date"
+        required
+      /><br /><br />
+
+      <input type="submit" value="확인" />
+    </form>
+
+    <script>
+      document
+        .getElementById("reservationForm")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+
+          const formData = new FormData(this);
+
+          // FormData를 JSON 형식으로 변환
+          const jsonData = {};
+          formData.forEach((value, key) => {
+            jsonData[key] = value;
+          });
+
+          // JSON 형식으로 서버로 전송
+          fetch("/submit", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(jsonData),
+          })
+            .then((response) => response.text())
+            .then((data) => {
+              console.log(data);
+            })
+            .catch((error) => console.error("에러:", error));
+        });
+    </script>
+  </body>
+</html>

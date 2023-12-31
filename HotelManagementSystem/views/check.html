@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/check.css" />
+    <title>호텔 관리 시스템</title>
+    <a href="/">홈으로 돌아가기</a>
+  </head>
+  <body>
+    <h1>호텔 관리 시스템</h1>
+    <button onclick="fetchAndPopulate()">조회</button>
+
+    <h2>체크인 목록</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>사용자 ID</th>
+          <th>방번호</th>
+          <th>체크인</th>
+          <th>체크아웃</th>
+          <th>체크아웃 버튼</th>
+        </tr>
+      </thead>
+      <tbody id="guestTableBody">
+        <!-- 동적으로 채워질 테이블 본문 -->
+      </tbody>
+    </table>
+
+    <script>
+      // 테이블 데이터 가져와서 채우는 함수
+      async function fetchAndPopulate() {
+        try {
+          const reservations = await fetchReservations();
+          populateGuestTable(reservations);
+        } catch (error) {
+          console.error("예약 정보를 가져오는 중 오류 발생:", error);
+        }
+      }
+
+      // 서버에서 예약 데이터 가져오는 함수
+      async function fetchReservations() {
+        try {
+          const response = await fetch("/api/reservations");
+          const reservations = await response.json();
+          return reservations;
+        } catch (error) {
+          console.error("예약 정보를 가져오는 중 오류 발생:", error);
+          throw error;
+        }
+      }
+
+      // 가져온 데이터로 테이블 업데이트하는 함수
+      function populateGuestTable(reservations) {
+        const tableBody = document.getElementById("guestTableBody");
+        tableBody.innerHTML = "";
+
+        reservations.forEach((reservation) => {
+          const tableRow = document.createElement("tr");
+          tableRow.innerHTML = `
+                    <td>${reservation.user_id}</td>
+                    <td>${reservation.room_number}</td>
+                    <td>${reservation.check_in_date}</td>
+                    <td id="checkoutStatus_${reservation.reservation_id}">
+                        ${
+                          reservation.check_out_date
+                            ? "체크아웃 안됨"
+                            : "체크아웃"
+                        }
+                    </td>
+                    <td>
+                        <button onclick="checkoutReservation(${
+                          reservation.reservation_id
+                        })">체크아웃</button>
+                    </td>
+                `;
+          tableBody.appendChild(tableRow);
+        });
+      }
+
+      // 체크아웃 버튼 클릭 시 호출되는 함수
+      async function checkoutReservation(reservationId) {
+        try {
+          // 현재 타임스탬프 가져오기
+          const checkoutTimestamp = new Date().toISOString();
+
+          // 데이터베이스에서 체크아웃 상태 업데이트 요청 보내기
+          const response = await fetch(`/api/checkout/${reservationId}`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ timestamp: checkoutTimestamp }),
+          });
+
+          if (response.ok) {
+            // 동적으로 테이블의 체크아웃 상태 업데이트
+            const checkoutStatusElement = document.getElementById(
+              `checkoutStatus_${reservationId}`
+            );
+            checkoutStatusElement.textContent = `체크아웃 (${checkoutTimestamp})`;
+          } else {
+            console.error("체크아웃 상태 업데이트 실패:", response.statusText);
+          }
+        } catch (error) {
+          console.error("체크아웃 중 오류 발생:", error);
+        }
+      }
+    </script>
+  </body>
+</html>
